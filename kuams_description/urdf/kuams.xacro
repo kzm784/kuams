@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="kuams" >
+    
+    <link name="base_link" />
+    <!-- <link name="base_footprint" />
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint" />
+        <child link="base_link" />
+        <origin xyz="0 0 0.06625" rpy="0 0 0"/>
+    </joint> -->
+
+    <link name="base_floor">
+        <visual>
+            <geometry>
+            	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
+                <!--<box size="0.600 0.400 0.050"/>-->
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+            	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
+                <!--<box size="0.600 0.400 0.050"/>-->
+            </geometry>
+        </collision>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="40" />
+            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
+                                iyy="1.0"   iyz="0.0"
+                                            izz="1.0" />
+        </inertial>
+    </link>
+
+    <joint name="base_body_joint" type="fixed">
+        <parent link="base_link" />
+        <child link="base_floor" />
+        <origin xyz="0.3 0 0.0" rpy="0 0 0"/>
+    </joint>
+
+
+    <link name="footrest_link">
+        <collision>
+            <geometry>
+                <box size="0.250 0.260 0.050"/>
+            </geometry>
+        </collision>
+        <visual>
+            <geometry>
+                <box size="0.250 0.260 0.050"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1" />
+            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
+                                iyy="1.0"   iyz="0.0"
+                                            izz="1.0" />
+        </inertial>
+    </link>
+
+    <joint name="footrest_joint" type="fixed">
+        <parent link="base_floor" />
+        <child link="footrest_link" />
+        <origin xyz="0.320 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="left_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <material name="black">
+                <color rgba="0 0 0 1.0"/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+        </collision> 
+
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="0.500"/>
+            <inertia ixx="0.0013541667" ixy="0" ixz="0" iyy="0.0013541667" iyz="0" izz="0.0025"/>
+        </inertial>
+    </link>
+
+
+    <joint name="leftWheel" type="continuous">
+        <parent link="base_floor" />
+        <child link="left_wheel_link" />
+        <origin xyz="-0.3 0.245 0" rpy="-1.57 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="right_wheel_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1.0"/>
+            </material>
+        </visual>
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="0.500"/>
+            <inertia ixx="0.0013541667" ixy="0" ixz="0" iyy="0.0013541667" iyz="0" izz="0.0025"/>
+        </inertial>
+    </link>
+
+    <joint name="rightWheel" type="continuous">
+        <parent link="base_floor" />
+        <child link="right_wheel_link" />
+        <origin xyz="-0.3 -0.245 0" rpy="1.57 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+
+    <link name="frontwheel_left">
+        <collision>
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+        </collision>
+
+        <visual>
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1.0"/>
+            </material>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
+                                iyy="1.0"   iyz="0.0"
+                                            izz="1.0" />
+        </inertial>
+    </link>
+    
+    <joint name="frontwheel_left_joint" type="fixed">
+        <parent link="base_floor" />
+        <child link="frontwheel_left" />
+        <origin xyz="0.3 -0.245 0" rpy="1.57 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+
+
+    <link name="frontwheel_right">
+        <collision>
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+        </collision>
+
+        <visual>
+            <geometry>
+                <cylinder length="0.05" radius="0.1325"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1.0"/>
+            </material>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1.0" />
+            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
+                                iyy="1.0"   iyz="0.0"
+                                            izz="1.0" />
+        </inertial>    
+    </link>
+
+    <joint name="frontwheel_right_joint" type="fixed">
+        <parent link="base_floor" />
+        <child link="frontwheel_right"/>
+        <origin xyz="0.3 0.245 0" rpy="1.57 0 0" />
+        <axis xyz="0 0 -1" />
+    </joint>
+
+    <!-- IMU -->
+    <link name="imu">
+    </link>
+
+    <joint name="imu_joint" type="fixed">
+        <axis xyz="0 1 0" />
+        <origin xyz="0.02 0 0.05" rpy="0 0.85521133347 3.14159265359"/>
+        <parent link="base_link"/>
+        <child link="imu"/>
+    </joint>
+
+    <!-- Velodyne -->
+    <link name="velodyne">
+    </link>
+
+    <joint name="velodyne" type="fixed">
+        <origin rpy="0 0 0" xyz="0.1 0 0.8"/>
+        <parent link="base_link"/>
+        <child link="velodyne"/>
+    </joint>
+    
+    <!-- laser -->
+    <link name="laser">
+    </link>
+
+    <joint name="laser_joint" type="fixed">
+        <origin rpy="3.1415926535 0 0" xyz="0.5 0 0.4"/>
+        <parent link="base_link"/>
+        <child link="laser"/>
+    </joint>
+
+    <!-- gx5 -->
+    <link name="gx5_25">
+    </link>
+
+    <joint name="gx5_25" type="fixed">
+        <origin rpy="0 0 0" xyz="0.1 0 0.75"/>
+        <parent link="base_link"/>
+        <child link="gx5_25"/>
+    </joint>
+
+    <!-- ===============  Transmission =============== -->
+
+    <transmission name="right_wheel_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rightWheel">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_wheel_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>30</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="left_wheel_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="leftWheel">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_wheel_motor">
+            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            <mechanicalReduction>30</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+</robot>
