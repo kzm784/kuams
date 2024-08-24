@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>kuams</name>
+  <version>0.0.1</version>
+  <description>KUAMS Meta Package</description>
+  <maintainer email="kazulab10969@outlook.jp">Kazuma Yagi</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>kuams_description</exec_depend>
+  <exec_depend>kuams_navigation</exec_depend>
+  <exec_depend>kuams_slam</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
+
