@@ -10,6 +10,10 @@ ROS 2 package for KUAMS (Kansai University Autonomous Measurement System)
 
 
 ## Build
+please install before building
+```sh
+sudo apt install ros-humble-laser-filters
+```
 In your shell:
 ```sh
 cd ~/<your_ros2_ws>/src
