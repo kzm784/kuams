@@ -1,0 +1,13 @@
+scan_to_scan_filter_chain:
+  ros__parameters:
+    filter1:
+      name: box
+      type: laser_filters/LaserScanBoxFilter
+      params:
+        box_frame: lidar
+        min_x: -0.50
+        max_x:  0.50
+        min_y: -0.50
+        max_y:  0.50
+        min_z: -0.50
+        max_z:  0.50
