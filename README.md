@@ -1,6 +1,8 @@
 # kuams 🐧
 ROS 2 package for KUAMS (Kansai University Autonomous Measurement System)
 
+<img src="./images/kuams.png">
+
 ## Requirements
 - Ubuntu 22.04 
 - ROS2 humble
