@@ -25,7 +25,7 @@ def generate_launch_description():
         default_value=os.path.join(
             get_package_share_directory('kuams_navigation'),
             'config',
-            'kuams_nav2_params.yaml'),
+            'kuams_nav2_3d_params.yaml'),
         description='The full path to the param file.'
     )
 

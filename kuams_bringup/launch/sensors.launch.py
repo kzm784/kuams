@@ -1,41 +1,105 @@
-from launch import LaunchDescription
+from launch import LaunchDescription, actions
 from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler, IncludeLaunchDescription
+from launch.substitutions import LaunchConfiguration
+from launch.event_handlers import OnProcessExit
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 import os
-from ament_index_python.packages import get_package_share_path
+from ament_index_python.packages import get_package_share_directory, get_package_share_path
+import yaml
 
 def generate_launch_description():
 
-    laser_filter_config_path = os.path.join(get_package_share_path('kuams_bringup'), 'config', 'box_filter.yaml')
+    # HLDS Laser Node
+    hlds_port = LaunchConfiguration('hlds_port', default='/dev/hlds')
+    hlds_frame_id = LaunchConfiguration('hlds_frame_id', default='laser')
 
-    laser_filter_node = Node(
-        package   = 'laser_filters',
-        executable= 'scan_to_scan_filter_chain',
-        parameters=[laser_filter_config_path],
-        remappings=[('scan', 'hlsdscan')]
+    hlds_laser_node = Node(
+        package='hls_lfcd_lds_driver',
+        executable='hlds_laser_publisher',
+        name='hlds_laser_publisher',
+        parameters=[{'port': hlds_port, 'frame_id': hlds_frame_id}],
+        output='screen',
+        remappings=[('scan', 'hldsscan')]
     )
 
-    laserscan_multi_merger = Node(
-        package='ira_laser_tools',
-        namespace='',
-        executable='laserscan_multi_merger',
-        name='laserscan_multi_merger',
-        output='screen',
-        parameters=[{
-            'destination_frame': 'lidar',
-            'cloud_destination_topic': '/merged_cloud',
-            'scan_destination_topic': '/scan_multi',
-            'laserscan_topics': '/scan_filtered /scan',
-            # LIST OF THE LASER SCAN TOPICS TO SUBSCRIBE
-            'angle_min': -3.14,
-            'angle_max': 3.14,
-            'angle_increment': 0.00437,
-            'scan_time': 0.0,
-            'range_min': 0.1,
-            'range_max': 100.0,
-        }],
+    # Velodyne Nodes
+    driver_share_dir = get_package_share_directory('velodyne_driver')
+    driver_params_file = os.path.join(driver_share_dir, 'config', 'VLP16-velodyne_driver_node-params.yaml')
+    velodyne_driver_node = Node(
+        package='velodyne_driver',
+        executable='velodyne_driver_node',
+        output='both',
+        parameters=[driver_params_file]
+    )
+
+    convert_share_dir = get_package_share_directory('velodyne_pointcloud')
+    convert_params_file = os.path.join(convert_share_dir, 'config', 'VLP16-velodyne_transform_node-params.yaml')
+    with open(convert_params_file, 'r') as f:
+        convert_params = yaml.safe_load(f)['velodyne_transform_node']['ros__parameters']
+    convert_params['calibration'] = os.path.join(convert_share_dir, 'params', 'VLP16db.yaml')
+    velodyne_transform_node = Node(
+        package='velodyne_pointcloud',
+        executable='velodyne_transform_node',
+        output='both',
+        parameters=[convert_params]
+    )
+
+    laserscan_share_dir = get_package_share_directory('velodyne_laserscan')
+    laserscan_params_file = os.path.join(laserscan_share_dir, 'config', 'default-velodyne_laserscan_node-params.yaml')
+    velodyne_laserscan_node = Node(
+        package='velodyne_laserscan',
+        executable='velodyne_laserscan_node',
+        output='both',
+        parameters=[laserscan_params_file]
+    )
+
+    # Laser Filters Node
+    laser_filter_config_path = os.path.join(get_package_share_path('kuams_bringup'), 'config', 'box_filter.yaml')
+    laser_filter_node = Node(
+        package='laser_filters',
+        executable='scan_to_scan_filter_chain',
+        parameters=[laser_filter_config_path],
+        remappings=[('scan', 'hldsscan')]
+    )
+
+    # Include laserscan_multi_merger.launch.py at the end
+    ira_laser_tools_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('ira_laser_tools'), 'launch', 'laserscan_multi_merger.launch.py')
+        )
     )
 
     return LaunchDescription([
-        laser_filter_node,
-        laserscan_multi_merger
+        hlds_laser_node,
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=hlds_laser_node,
+                on_exit=[velodyne_driver_node]
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=velodyne_driver_node,
+                on_exit=[velodyne_transform_node]
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=velodyne_transform_node,
+                on_exit=[velodyne_laserscan_node]
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=velodyne_laserscan_node,
+                on_exit=[laser_filter_node]
+            )
+        ),
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=laser_filter_node,
+                on_exit=[ira_laser_tools_launch]
+            )
+        )
     ])

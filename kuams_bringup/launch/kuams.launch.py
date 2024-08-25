@@ -69,28 +69,33 @@ def generate_launch_description():
     ld.add_action(jointstate_node)
     ld.add_action(
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'velodyne-all-nodes-VLP16-launch.py'))
+            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'sensors.launch.py'))
         ),
-    )
-    ld.add_action(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'hlds_laser.launch.py'))
-        ),
-    )
-    ld.add_action(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'gx5_25.launch.py'))
-        ),
-    )
+    )    
+    # ld.add_action(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'velodyne-all-nodes-VLP16-launch.py'))
+    #     ),
+    # )
+    # ld.add_action(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'hlds_laser.launch.py'))
+    #     ),
+    # )
+    # ld.add_action(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'gx5_25.launch.py'))
+    #     ),
+    # )
     # ld.add_action(
     #     IncludeLaunchDescription(
     #         PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'static_transform_publisher.launch.py'))
     #     ),
     # )
-    ld.add_action(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'ekf.launch.py'))
-        ),
-    )
+    # ld.add_action(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'ekf.launch.py'))
+    #     ),
+    # )
 
     return ld
