@@ -10,6 +10,7 @@ ROS 2 package for KUAMS (Kansai University Autonomous Measurement System)
 - [ros2_whill_interfaces (crystal-devel)](https://github.com/WHILL/ros2_whill_interfaces)
 - [ira_laser_tools (humble)](https://github.com/kzm784/ira_laser_tools.git)
 - [waypoint_manager](https://github.com/kzm784/waypoint_manager.git)
+- [lidar_localization_ros2](https://github.com/kzm784/lidar_localization_ros2.git)
 
 
 ## Build
