@@ -1,8 +1,7 @@
-from launch import LaunchDescription, actions
+from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler, IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription
 from launch.substitutions import LaunchConfiguration
-from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 import os
 from ament_index_python.packages import get_package_share_directory, get_package_share_path
@@ -72,34 +71,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         hlds_laser_node,
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=hlds_laser_node,
-                on_exit=[velodyne_driver_node]
-            )
-        ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=velodyne_driver_node,
-                on_exit=[velodyne_transform_node]
-            )
-        ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=velodyne_transform_node,
-                on_exit=[velodyne_laserscan_node]
-            )
-        ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=velodyne_laserscan_node,
-                on_exit=[laser_filter_node]
-            )
-        ),
-        RegisterEventHandler(
-            event_handler=OnProcessExit(
-                target_action=laser_filter_node,
-                on_exit=[ira_laser_tools_launch]
-            )
-        )
+        velodyne_driver_node,
+        velodyne_transform_node,
+        velodyne_laserscan_node,
+        laser_filter_node,
+        ira_laser_tools_launch
     ])
