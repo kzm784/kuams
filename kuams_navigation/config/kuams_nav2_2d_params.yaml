@@ -169,7 +169,7 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       publish_frequency: 2.0
-      global_frame: map
+      global_frame: odom
       robot_base_frame: base_link
       use_sim_time: False
       rolling_window: true
@@ -189,7 +189,7 @@ local_costmap:
         enabled: True
         observation_sources: scan
         scan:
-          topic: /hlsdscan
+          topic: /scan_multi
           max_obstacle_height: 2.0
           clearing: True
           marking: True
@@ -291,7 +291,7 @@ recoveries_server:
       plugin: "nav2_recoveries/BackUp"
     wait:
       plugin: "nav2_recoveries/Wait"
-    global_frame: map
+    global_frame: odom
     robot_base_frame: base_footprint
     transform_timeout: 0.1
     use_sim_time: False
