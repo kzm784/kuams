@@ -11,7 +11,7 @@ ROS 2 package for KUAMS (Kansai University Autonomous Measurement System)
 - [ira_laser_tools (humble)](https://github.com/kzm784/ira_laser_tools.git)
 - [waypoint_manager](https://github.com/kzm784/waypoint_manager.git)
 - [lidar_localization_ros2](https://github.com/kzm784/lidar_localization_ros2.git)
-- [emcl2_ros12](https://github.com/CIT-Autonomous-Robot-Lab/emcl2_ros2.git)
+- [emcl2_ros2](https://github.com/CIT-Autonomous-Robot-Lab/emcl2_ros2.git)
 
 
 ## Build
