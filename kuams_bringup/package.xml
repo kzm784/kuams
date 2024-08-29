@@ -5,7 +5,7 @@
   <version>0.0.1</version>
   <description>kuams_bringup</description>
   <maintainer email="kazulab10969@outlook.jp">kazuma</maintainer>
-  <license>MITn</license>
+  <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
