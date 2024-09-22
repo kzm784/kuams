@@ -70,10 +70,6 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        base_footprint:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         base_link:
           Alpha: 1
           Show Axes: false
@@ -93,6 +89,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        gx5_25:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         imu:
           Alpha: 1
           Show Axes: false
@@ -130,8 +130,6 @@ Visualization Manager:
         All Enabled: true
         base_floor:
           Value: true
-        base_footprint:
-          Value: true
         base_link:
           Value: true
         footrest_link:
@@ -140,13 +138,13 @@ Visualization Manager:
           Value: true
         frontwheel_right:
           Value: true
+        gx5_25:
+          Value: true
         imu:
           Value: true
         laser:
           Value: true
         left_wheel_link:
-          Value: true
-        lidar:
           Value: true
         right_wheel_link:
           Value: true
@@ -158,13 +156,32 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        base_link:
+          base_floor:
+            footrest_link:
+              {}
+            frontwheel_left:
+              {}
+            frontwheel_right:
+              {}
+            left_wheel_link:
+              {}
+            right_wheel_link:
+              {}
+          gx5_25:
+            {}
+          imu:
+            {}
+          laser:
+            {}
+          velodyne:
+            {}
       Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: base_footprint
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -207,7 +224,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.5453577041625977
+      Distance: 4.594577312469482
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
