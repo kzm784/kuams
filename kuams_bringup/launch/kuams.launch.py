@@ -55,7 +55,7 @@ def generate_launch_description():
         name='whill_modelc_publisher',
         output='screen',
         parameters=[LaunchConfiguration('params')],
-        # remappings=[('/whill/odom', '/odom')]
+        remappings=[('/whill/odom', '/odom')]
     )
     
     # Create the launch description and populate
