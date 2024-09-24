@@ -1,8 +1,6 @@
 amcl:
   ros__parameters:
     use_sim_time: False
-    # ノイズの大きさをデフォルト値から小さくした
-    # 回転によりodomがずれやすいため、回転成分のノイズを大きくした
     alpha1: 0.1
     alpha2: 0.1
     alpha3: 0.01
@@ -33,14 +31,12 @@ amcl:
     sigma_hit: 0.2
     tf_broadcast: false
     transform_tolerance: 1.0
-    # ラズパイマウスに合わせて、updateに必要な最小距離と角度を小さくした
     update_min_a: 0.02
     update_min_d: 0.05
     z_hit: 0.5
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    # 仮の初期位置・姿勢を設定
     set_initial_pose: false
     initial_pose:
       x: 0.0
@@ -100,7 +96,6 @@ controller_server:
     min_y_velocity_threshold: 0.5
     min_theta_velocity_threshold: 0.001
 
-    # ゴール判定のプラグインを追加
     goal_checker_plugins: ["goal_checker"]
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
@@ -113,7 +108,6 @@ controller_server:
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
       debug_trajectory_details: True
-      # 走行速度をラズパイマウスのスペックに合わせて調整
       min_vel_x: 0.0
       min_vel_y: 0.0
       max_vel_x: 10.0
@@ -122,12 +116,12 @@ controller_server:
       min_speed_xy: 0.0
       max_speed_xy: 2.0
       min_speed_theta: 0.0
-      acc_lim_x: 10.0
+      acc_lim_x: 2.0
       acc_lim_y: 0.0
-      acc_lim_theta: 10.0
-      decel_lim_x: -2.0
+      acc_lim_theta: 2.0
+      decel_lim_x: -1.0
       decel_lim_y: 0.0
-      decel_lim_theta: -4.0
+      decel_lim_theta: -1.0
 
       vx_samples: 20
       vy_samples: 0
@@ -142,23 +136,23 @@ controller_server:
       stateful: True
       critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "PathDist", "GoalDist"]
       BaseObstacle:
-        scale: 0.02  # criticの重み
+        scale: 0.02
       PathAlign:
         forward_point_distance: 0.1
-        scale: 32.0  # criticの重み
+        scale: 32.0
       GoalAlign:
         forward_point_distance: 0.1
-        scale: 24.0  # criticの重み
+        scale: 24.0
       PathDist:
-        scale: 32.0  # criticの重み
+        scale: 32.0
       GoalDist:
-        scale: 24.0  # criticの重み
+        scale: 24.0
       RotateToGoal:
-        xy_goal_tolerance: 0.01  # meters
-        trans_stopped_velocity: 0.25  # rad/sec
+        xy_goal_tolerance: 0.01
+        trans_stopped_velocity: 0.25
         slowing_factor: 20.0
         lookahead_time: -1.0
-        scale: 32.0  # criticの重み
+        scale: 32.0
 
 controller_server_rclcpp_node:
   ros__parameters:
@@ -168,15 +162,14 @@ local_costmap:
   local_costmap:
     ros__parameters:
       update_frequency: 5.0
-      publish_frequency: 2.0
+      publish_frequency: 2.0  
       global_frame: odom
       robot_base_frame: base_link
       use_sim_time: False
       rolling_window: true
-      # ラズパイマウスの形状が小さいので、コストマップのサイズも小さくする
-      width: 5  # meters
-      height: 5  # meters
-      # SLAMのパラメータと同じresolutionを設定
+      
+      width: 5
+      height: 5
       resolution: 0.01
       footprint: "[ [0.75, 0.3], [0.75, -0.3], [-0.2, -0.3], [-0.2, 0.3] ]"
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
@@ -198,7 +191,7 @@ local_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 8.0
-        inflation_radius: 1.0
+        inflation_radius: 2.0
       always_send_full_costmap: True
   local_costmap_client:
     ros__parameters:
@@ -210,13 +203,12 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
-      update_frequency: 1.0
+      update_frequency: 0.5
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
       use_sim_time: False
       footprint: "[ [0.75, 0.3], [0.75, -0.3], [-0.2, -0.3], [-0.2, 0.3]  ]"
-      # SLAMのパラメータと同じresolutionを設定
       resolution: 0.01
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       static_layer:
@@ -226,7 +218,6 @@ global_costmap:
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        # フットプリントに重なった障害物を除去する
         footprint_clearing_enabled: True
         observation_sources: scan
         scan:
@@ -292,7 +283,7 @@ recoveries_server:
     wait:
       plugin: "nav2_recoveries/Wait"
     global_frame: odom
-    robot_base_frame: base_footprint
+    robot_base_frame: base_link
     transform_timeout: 0.1
     use_sim_time: False
     simulate_ahead_time: 2.0

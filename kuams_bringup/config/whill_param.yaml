@@ -3,7 +3,7 @@ whill_modelc_publisher:
                 serialport: "/dev/whill"
                 wheel_radius: 0.135
                 send_interval: 10
-                publish_odom_tf: false
+                publish_odom_tf: true
 
 whill_modelc_controller:
         ros__parameters:
