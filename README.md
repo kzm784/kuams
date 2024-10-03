@@ -17,6 +17,7 @@ ROS 2 package for KUAMS (Kansai University Autonomous Measurement System)
 ## Build
 please install before building
 ```sh
+sudo apt install ros-humble-navigation2
 sudo apt install ros-humble-laser-filters
 sudo apt install ros-humble-velodyne
 sudo apt install ros-humble-hls-lfcd-lds-driver
