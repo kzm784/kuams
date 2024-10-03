@@ -50,8 +50,6 @@ def generate_launch_description():
             'map': map_yaml_file,
             'params_file': params_file,
             'use_sim_time': use_sim_time,
-            # '/odom': '/whill/odom',
-            # '/cmd_vel': '/whill/controller/cmd_vel'
             }.items(),
     )
 
