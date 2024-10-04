@@ -69,7 +69,7 @@ def generate_launch_description():
     ld.add_action(jointstate_node)
     ld.add_action(
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'sensors.launch.py'))
+            PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'kuams_sensors.launch.py'))
         ),
     )    
     # ld.add_action(
