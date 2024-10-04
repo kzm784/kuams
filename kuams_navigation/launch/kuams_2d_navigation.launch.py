@@ -33,7 +33,7 @@ def generate_launch_description():
         'rviz2_file', default_value=os.path.join(
             get_package_share_directory('kuams_navigation'),
             'rviz',
-            'shugo_nav2.rviz'),
+            '3d_nav2_view.rviz'),
         description='The full path to the rviz file'
     )
 
