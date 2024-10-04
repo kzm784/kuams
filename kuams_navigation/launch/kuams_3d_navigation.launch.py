@@ -33,7 +33,7 @@ def generate_launch_description():
         'rviz2_file', default_value=os.path.join(
             get_package_share_directory('kuams_navigation'),
             'rviz',
-            'shugo_nav2.rviz'),
+            '3d_nav2_view.rviz'),
         description='The full path to the rviz file'
     )
 
@@ -45,7 +45,7 @@ def generate_launch_description():
     # Launch files and Nodes #
     nav2_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            nav2_launch_file_dir, '/bringup.launch.py']),
+            nav2_launch_file_dir, '/bringup_launch.py']),
         launch_arguments={
             'map': map_yaml_file,
             'params_file': params_file,
