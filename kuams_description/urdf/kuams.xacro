@@ -12,6 +12,7 @@
 
     <link name="base_floor">
         <visual>
+            <origin xyz="-0.08 0 0" rpy="0 0 0" />
             <geometry>
             	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
                 <!--<box size="0.600 0.400 0.050"/>-->
@@ -22,6 +23,7 @@
         </visual>
 
         <collision>
+            <origin xyz="-0.08 0 0" rpy="0 0 0" />
             <geometry>
             	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
                 <!--<box size="0.600 0.400 0.050"/>-->
@@ -54,9 +56,9 @@
             <geometry>
                 <box size="0.250 0.260 0.050"/>
             </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
+            <material name="dark_grey">
+                <color rgba="0.1 0.1 0.1 1.0"/>
+            </material>            
         </visual>
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0" />
@@ -79,9 +81,9 @@
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <material name="black">
-                <color rgba="0 0 0 1.0"/>
-            </material>
+            <material name="dark_grey">
+                <color rgba="0.1 0.1 0.1 1.0"/>
+            </material>  
         </visual>
 
         <collision>
@@ -117,9 +119,9 @@
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
-            <material name="black">
-                <color rgba="0 0 0 1.0"/>
-            </material>
+            <material name="dark_grey">
+                <color rgba="0.1 0.1 0.1 1.0"/>
+            </material>  
         </visual>
         <inertial>
             <origin xyz="0 0 0"/>
@@ -147,9 +149,9 @@
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
-            <material name="black">
-                <color rgba="0 0 0 1.0"/>
-            </material>
+            <material name="dark_grey">
+                <color rgba="0.1 0.1 0.1 1.0"/>
+            </material>  
         </visual>
 
         <inertial>
@@ -181,9 +183,9 @@
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
-            <material name="black">
-                <color rgba="0 0 0 1.0"/>
-            </material>
+            <material name="dark_grey">
+                <color rgba="0.1 0.1 0.1 1.0"/>
+            </material>  
         </visual>
 
         <inertial>
