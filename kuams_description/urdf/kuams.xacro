@@ -12,10 +12,8 @@
 
     <link name="base_floor">
         <visual>
-            <origin xyz="-0.08 0 0" rpy="0 0 0" />
             <geometry>
             	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
-                <!--<box size="0.600 0.400 0.050"/>-->
             </geometry>
             <material name="grey">
                 <color rgba="0.5 0.5 0.5 1.0"/>
@@ -23,10 +21,8 @@
         </visual>
 
         <collision>
-            <origin xyz="-0.08 0 0" rpy="0 0 0" />
             <geometry>
             	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
-                <!--<box size="0.600 0.400 0.050"/>-->
             </geometry>
         </collision>
 
@@ -47,26 +43,6 @@
 
 
     <link name="footrest_link">
-        <collision>
-            <geometry>
-                <box size="0.250 0.260 0.050"/>
-            </geometry>
-        </collision>
-        <visual>
-            <geometry>
-                <box size="0.250 0.260 0.050"/>
-            </geometry>
-            <material name="dark_grey">
-                <color rgba="0.1 0.1 0.1 1.0"/>
-            </material>            
-        </visual>
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="1" />
-            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
-                                iyy="1.0"   iyz="0.0"
-                                            izz="1.0" />
-        </inertial>
     </link>
 
     <joint name="footrest_joint" type="fixed">
@@ -220,7 +196,7 @@
     </link>
 
     <joint name="velodyne" type="fixed">
-        <origin rpy="0 0 0" xyz="0.1 0 0.8"/>
+        <origin rpy="0 0 0" xyz="0.2 0 0.8"/>
         <parent link="base_link"/>
         <child link="velodyne"/>
     </joint>
@@ -230,7 +206,7 @@
     </link>
 
     <joint name="laser_joint" type="fixed">
-        <origin rpy="3.1415926535 0 0" xyz="0.5 0 0.3"/>
+        <origin rpy="3.1415926535 0 0" xyz="0.6 0 0.3"/>
         <parent link="base_link"/>
         <child link="laser"/>
     </joint>
@@ -240,7 +216,7 @@
     </link>
 
     <joint name="gx5_25" type="fixed">
-        <origin rpy="0 0 0" xyz="0.1 0 0.75"/>
+        <origin rpy="0 0 0" xyz="0.2 0 0.75"/>
         <parent link="base_link"/>
         <child link="gx5_25"/>
     </joint>
