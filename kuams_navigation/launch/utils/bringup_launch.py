@@ -31,7 +31,7 @@ from nav2_common.launch import RewrittenYaml, ReplaceString
 def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory('kuams_navigation')
-    launch_dir = os.path.join(bringup_dir, 'launch')
+    launch_dir = os.path.join(bringup_dir, 'launch', 'utils')
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')

@@ -39,7 +39,8 @@ def generate_launch_description():
 
     nav2_launch_file_dir = os.path.join(
         get_package_share_directory('kuams_navigation'),
-        'launch'
+        'launch',
+        'utils'
     )
 
     # Launch files and Nodes #
