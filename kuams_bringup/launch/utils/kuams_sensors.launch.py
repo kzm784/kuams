@@ -10,17 +10,17 @@ import yaml
 def generate_launch_description():
 
     # HLDS Laser Node
-    hlds_port = LaunchConfiguration('hlds_port', default='/dev/hlds')
-    hlds_frame_id = LaunchConfiguration('hlds_frame_id', default='laser')
+    # hlds_port = LaunchConfiguration('hlds_port', default='/dev/hlds')
+    # hlds_frame_id = LaunchConfiguration('hlds_frame_id', default='laser')
 
-    hlds_laser_node = Node(
-        package='hls_lfcd_lds_driver',
-        executable='hlds_laser_publisher',
-        name='hlds_laser_publisher',
-        parameters=[{'port': hlds_port, 'frame_id': hlds_frame_id}],
-        output='screen',
-        remappings=[('scan', 'hldsscan')]
-    )
+    # hlds_laser_node = Node(
+    #     package='hls_lfcd_lds_driver',
+    #     executable='hlds_laser_publisher',
+    #     name='hlds_laser_publisher',
+    #     parameters=[{'port': hlds_port, 'frame_id': hlds_frame_id}],
+    #     output='screen',
+    #     remappings=[('scan', 'hldsscan')]
+    # )
 
     # Velodyne Nodes
     driver_share_dir = get_package_share_directory('velodyne_driver')
@@ -69,11 +69,19 @@ def generate_launch_description():
         )
     )
 
+    # Include msg_MID660_launch.py from livox_driver_ros2
+    livox_driver_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('livox_driver_ros2'), 'launch', 'msg_MID660_launch.py')
+        )
+    )
+
     return LaunchDescription([
-        hlds_laser_node,
+        # hlds_laser_node,
         velodyne_driver_node,
         velodyne_transform_node,
         velodyne_laserscan_node,
         laser_filter_node,
-        ira_laser_tools_launch
+        ira_laser_tools_launch,
+        livox_driver_launch  # Add Livox driver launch
     ])
