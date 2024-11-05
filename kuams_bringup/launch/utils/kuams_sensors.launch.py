@@ -69,11 +69,18 @@ def generate_launch_description():
         )
     )
 
-    # Include msg_MID660_launch.py from livox_driver_ros2
+    # Include msg_MID660_launch.py from livox_driver_ros2 with custom user_config_path
     livox_driver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('livox_driver_ros2'), 'launch', 'msg_MID660_launch.py')
-        )
+        ),
+        launch_arguments={
+            'user_config_path': os.path.join(
+                get_package_share_directory('kuams_bringup'),
+                'config',
+                'MID360_config.json'
+            )
+        }.items()
     )
 
     return LaunchDescription([
@@ -83,5 +90,5 @@ def generate_launch_description():
         velodyne_laserscan_node,
         laser_filter_node,
         ira_laser_tools_launch,
-        livox_driver_launch  # Add Livox driver launch
+        livox_driver_launch
     ])
