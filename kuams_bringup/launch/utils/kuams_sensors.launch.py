@@ -54,25 +54,32 @@ def generate_launch_description():
     )
 
     # Laser Filters Node
-    laser_filter_config_path = os.path.join(get_package_share_path('kuams_bringup'), 'config', 'box_filter.yaml')
-    laser_filter_node = Node(
-        package='laser_filters',
-        executable='scan_to_scan_filter_chain',
-        parameters=[laser_filter_config_path],
-        remappings=[('scan', 'hldsscan')]
-    )
+    # laser_filter_config_path = os.path.join(get_package_share_path('kuams_bringup'), 'config', 'box_filter.yaml')
+    # laser_filter_node = Node(
+    #     package='laser_filters',
+    #     executable='scan_to_scan_filter_chain',
+    #     parameters=[laser_filter_config_path],
+    #     remappings=[('scan', 'hldsscan')]
+    # )
 
-    # Include laserscan_multi_merger.launch.py at the end
-    ira_laser_tools_launch = IncludeLaunchDescription(
+    # Include pointcloud_to_laser_scan
+    pointcloud_to_laserscan_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('ira_laser_tools'), 'launch', 'laserscan_multi_merger.launch.py')
+            os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
         )
     )
 
-    # Include msg_MID660_launch.py from livox_driver_ros2 with custom user_config_path
+    # Include laserscan_multi_merger.launch.py at the end
+    # ira_laser_tools_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(get_package_share_directory('ira_laser_tools'), 'launch', 'laserscan_multi_merger.launch.py')
+    #     )
+    # )
+
+    # Include rviz_MID660_launch.py from livox_ros_driver2 with custom user_config_path
     livox_driver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('livox_driver_ros2'), 'launch', 'msg_MID660_launch.py')
+            os.path.join(get_package_share_directory('livox_ros_driver2'), 'launch_ROS2', 'rviz_MID360_launch.py')
         ),
         launch_arguments={
             'user_config_path': os.path.join(
@@ -83,12 +90,14 @@ def generate_launch_description():
         }.items()
     )
 
+    
     return LaunchDescription([
         # hlds_laser_node,
         velodyne_driver_node,
         velodyne_transform_node,
         velodyne_laserscan_node,
-        laser_filter_node,
-        ira_laser_tools_launch,
+        # laser_filter_node,
+        pointcloud_to_laserscan_launch,
+        # ira_laser_tools_launch,
         livox_driver_launch
     ])
