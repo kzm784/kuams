@@ -201,13 +201,22 @@
         <child link="velodyne"/>
     </joint>
     
+    <link name="front_sensor_link">
+    </link>
+
+    <joint name="livox_front_sensor_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0.6 0 0.3"/>
+        <parent link="base_link"/>
+        <child link="front_sensor_link"/>
+    </joint>
+
     <!-- laser -->
     <link name="livox_frame">
     </link>
 
     <joint name="laser_joint" type="fixed">
-        <origin rpy="3.1415926535 0 0" xyz="0.6 0 0.3"/>
-        <parent link="base_link"/>
+        <origin rpy="3.1415926535 -0.34906585039886 0" xyz="0 0 0"/>
+        <parent link="front_sensor_link"/>
         <child link="livox_frame"/>
     </joint>
 
