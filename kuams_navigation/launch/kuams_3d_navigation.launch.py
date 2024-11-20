@@ -43,6 +43,10 @@ def generate_launch_description():
         'utils'
     )
 
+    nav2_collision_monitor_launch_file_dir = os.path.join(
+        get_package_share_directory('nav2_collision_monitor'), 'launch'
+    )
+
     # Launch files and Nodes #
     nav2_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -51,7 +55,7 @@ def generate_launch_description():
             'map': map_yaml_file,
             'params_file': params_file,
             'use_sim_time': use_sim_time,
-            }.items(),
+        }.items(),
     )
 
     rviz2_node = Node(
@@ -61,6 +65,16 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
+    # nav2_collision_monitorのlaunchファイルをインクルード
+    collision_monitor_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [nav2_collision_monitor_launch_file_dir, '/collision_monitor_node.launch.py']),
+        launch_arguments={
+            'use_sim_time': use_sim_time,
+            'params_file': params_file
+        }.items(),
+    )
+
     ld = LaunchDescription()
     ld.add_action(declare_arg_map)
     ld.add_action(declare_arg_params_file)
@@ -68,5 +82,6 @@ def generate_launch_description():
 
     ld.add_action(nav2_node)
     ld.add_action(rviz2_node)
+    ld.add_action(collision_monitor_launch)
 
     return ld
