@@ -9,18 +9,7 @@ import yaml
 
 def generate_launch_description():
 
-    # HLDS Laser Node
-    # hlds_port = LaunchConfiguration('hlds_port', default='/dev/hlds')
-    # hlds_frame_id = LaunchConfiguration('hlds_frame_id', default='laser')
-
-    # hlds_laser_node = Node(
-    #     package='hls_lfcd_lds_driver',
-    #     executable='hlds_laser_publisher',
-    #     name='hlds_laser_publisher',
-    #     parameters=[{'port': hlds_port, 'frame_id': hlds_frame_id}],
-    #     output='screen',
-    #     remappings=[('scan', 'hldsscan')]
-    # )
+    bringup_dir = get_package_share_directory("kuams_bringup")
 
     # Velodyne Nodes
     driver_share_dir = get_package_share_directory('velodyne_driver')
@@ -53,28 +42,12 @@ def generate_launch_description():
         parameters=[laserscan_params_file]
     )
 
-    # Laser Filters Node
-    # laser_filter_config_path = os.path.join(get_package_share_path('kuams_bringup'), 'config', 'box_filter.yaml')
-    # laser_filter_node = Node(
-    #     package='laser_filters',
-    #     executable='scan_to_scan_filter_chain',
-    #     parameters=[laser_filter_config_path],
-    #     remappings=[('scan', 'hldsscan')]
-    # )
-
     # Include pointcloud_to_laser_scan
     pointcloud_to_laserscan_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
         )
     )
-
-    # Include laserscan_multi_merger.launch.py at the end
-    # ira_laser_tools_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(get_package_share_directory('ira_laser_tools'), 'launch', 'laserscan_multi_merger.launch.py')
-    #     )
-    # )
 
     # Include rviz_MID660_launch.py from livox_ros_driver2 with custom user_config_path
     livox_driver_launch = IncludeLaunchDescription(
@@ -90,14 +63,36 @@ def generate_launch_description():
         }.items()
     )
 
+    livox_ros_driver2_node = Node(
+        package="livox_ros_driver2",
+        executable="livox_ros_driver2_node",
+        name="livox_ros_driver2",
+        output="screen",
+        parameters=[
+            {
+                "xfer_format": 0,
+                "multi_topic": 0,
+                "data_src": 0,
+                "publish_freq": 10.0,
+                "output_data_type": 0,
+                "frame_id": "livox_frame",
+                "lvx_file_path": "",
+                "user_config_path": os.path.join(
+                    bringup_dir, "config", "MID360_config.json"
+                ),
+                "cmdline_input_bd_code": "livox0000000001",
+            }
+        ]
+
+    )
+
+
     
     return LaunchDescription([
-        # hlds_laser_node,
         velodyne_driver_node,
         velodyne_transform_node,
         velodyne_laserscan_node,
-        # laser_filter_node,
         pointcloud_to_laserscan_launch,
-        # ira_laser_tools_launch,
-        livox_driver_launch
+        # livox_driver_launch
+        livox_ros_driver2_node
     ])
