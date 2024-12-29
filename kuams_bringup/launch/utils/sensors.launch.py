@@ -58,39 +58,63 @@ def generate_launch_description():
 
     # livox_ros_driver2 Node
     livox_ros_driver2_node = Node(
-        package="livox_ros_driver2",
-        executable="livox_ros_driver2_node",
-        name="livox_ros_driver2",
-        output="screen",
+        package='livox_ros_driver2',
+        executable='livox_ros_driver2_node',
+        name='livox_ros_driver2',
+        output='screen',
         parameters=[
             {
-                "xfer_format": 0,
-                "multi_topic": 0,
-                "data_src": 0,
-                "publish_freq": 10.0,
-                "output_data_type": 0,
-                "frame_id": "livox_frame",
-                "lvx_file_path": "",
-                "user_config_path": os.path.join(
-                    bringup_dir, "config", "MID360_config.json"
+                'xfer_format': 0,
+                'multi_topic': 0,
+                'data_src': 0,
+                'publish_freq': 10.0,
+                'output_data_type': 0,
+                'frame_id': 'livox_frame',
+                'lvx_file_path': '',
+                'user_config_path': os.path.join(
+                    bringup_dir, 'config', 'MID360_config.json'
                 ),
-                "cmdline_input_bd_code": "livox0000000001",
+                'cmdline_input_bd_code': 'livox0000000001',
             }
         ]
     )
 
-    # Include pointcloud_to_laser_scan
-    pointcloud_to_laserscan_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
-        )
+    # pointcloud_to_laser_scan node
+    pointcloud_to_laserscan_node = Node(
+        package='pointcloud_to_laserscan',
+        executable='pointcloud_to_laserscan_node',
+        name='pointcloud_to_laserscan',
+        remappings=[('cloud_in', 'livox/lidar'),
+                    ('scan', '/livox_scan')],
+        parameters=[{
+            'target_frame': 'livox_frame',
+            'transform_tolerance': 0.01,
+            'min_height': -0.2,
+            'max_height': 0.2,
+            'angle_min': -3.1415,
+            'angle_max': 3.1415,
+            'angle_increment': 0.0087,
+            'scan_time': 0.3333,
+            'range_min': 0.45,
+            'range_max': 30.0,
+            'use_inf': True,
+            'inf_epsilon': 1.0
+        }]
     )
+
+    # Include pointcloud_to_laser_scan
+    # pointcloud_to_laserscan_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
+    #     )
+    # )
 
     return LaunchDescription([
         velodyne_driver_node,
         velodyne_transform_node,
         velodyne_laserscan_node,
-        pointcloud_to_laserscan_launch,
+        # pointcloud_to_laserscan_launch,
         # livox_driver_launch
-        livox_ros_driver2_node
+        livox_ros_driver2_node,
+        pointcloud_to_laserscan_node
     ])
