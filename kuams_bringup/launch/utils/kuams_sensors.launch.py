@@ -42,27 +42,21 @@ def generate_launch_description():
         parameters=[laserscan_params_file]
     )
 
-    # Include pointcloud_to_laser_scan
-    pointcloud_to_laserscan_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
-        )
-    )
-
     # Include rviz_MID660_launch.py from livox_ros_driver2 with custom user_config_path
-    livox_driver_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('livox_ros_driver2'), 'launch_ROS2', 'rviz_MID360_launch.py')
-        ),
-        launch_arguments={
-            'user_config_path': os.path.join(
-                get_package_share_directory('kuams_bringup'),
-                'config',
-                'MID360_config.json'
-            )
-        }.items()
-    )
+    # livox_driver_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         os.path.join(get_package_share_directory('livox_ros_driver2'), 'launch_ROS2', 'rviz_MID360_launch.py')
+    #     ),
+    #     launch_arguments={
+    #         'user_config_path': os.path.join(
+    #             get_package_share_directory('kuams_bringup'),
+    #             'config',
+    #             'MID360_config.json'
+    #         )
+    #     }.items()
+    # )
 
+    # livox_ros_driver2 Node
     livox_ros_driver2_node = Node(
         package="livox_ros_driver2",
         executable="livox_ros_driver2_node",
@@ -83,11 +77,15 @@ def generate_launch_description():
                 "cmdline_input_bd_code": "livox0000000001",
             }
         ]
-
     )
 
+    # Include pointcloud_to_laser_scan
+    pointcloud_to_laserscan_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
+        )
+    )
 
-    
     return LaunchDescription([
         velodyne_driver_node,
         velodyne_transform_node,
