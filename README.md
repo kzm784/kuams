@@ -35,6 +35,7 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
 - `kuams_bringup` : KUAMS、各種センサの起動を行うためのlaunchファイルを提供するパッケージです。
 - `kuams_description` : KUAMSの物理モデルやURDFモデル、Meshファイルを含むパッケージです。
 - `kuams_navigation` : Nav2の起動を行うためのlaunchファイルを提供するパッケージです。
+- `kuams_slam` : slam_toolboxを起動するためのlaunchファイルを提供するパッケージです。
 - `kuams_teleop` : Joyコントローラを使用してKUAMS3を操作するためのコード、launchファイルを提供するパッケージです。
 
 ## インストール方法  
