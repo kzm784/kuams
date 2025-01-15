@@ -136,7 +136,7 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
 - **Navigation2を用いたウェイポイントナビゲーション**:  
     ⚠️ **注意**: ホームディレクトリに Navigation_data ディレクトリを作成し、ウェイポイントナビゲーションに必要なデータをその中に準備してください。
     ```
-    naviagtion_data
+    navigation_data
         │
         ├── rinpukan
         │       ├── rinpukan.pcd        # 3次元地図
