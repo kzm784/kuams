@@ -53,7 +53,7 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
    colcon build
     ```
 
-3. [**ros2_whill**](https://github.com/kzm784/ros2_whill) のセットアップ
+3. [**ros2_whill**](https://github.com/kzm784/ros2_whill) のセットアップ:
     ```bash
     sudo apt install ros-humble-xacro
     cd ~/kuams_ws/src
