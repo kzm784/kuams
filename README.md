@@ -153,21 +153,25 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
     echo 'export NAVIGATION_DATA_NAME=rinpukan' >> ~/.bashrc
     ```
 
-    ウェイポイントナビゲーションで使用するデータを指定する場合は、環境変数 `NAVIGATION_DATA_NAME` 以下のコマンドで変更します。  
+    ウェイポイントナビゲーションで使用するデータを指定:  
+    以下のコマンドで環境変数 `NAVIGATION_DATA_NAME` 変更してください。
     ```bash
-    # Nav2・waypoint_managerの起動前に行ってください。
+    # Nav2・waypoint_managerの起動前に各ターミナルで実行してください。
     export NAVIGATION_DATA_NAME=rinpukan
     ```
-    ※`.bashrc` を編集することでも使用するデータを指定することができます。その場合は編集後、ターミナルを開き直してください。
+    ※ `.bashrc` を編集することでも使用するデータを指定することができます。  
+      その場合は `.bashrc` を編集後、ターミナルを開き直してください。
 
-    KUAMSを起動後、以下のコマンドで**Nav2**を起動します
+    **Nav2**の起動:  
+    KUAMSを起動後、以下のコマンドで Nav2 を起動します
     ```bash
     cd ~/kuams_ws
     source install/setup.bash
     ros2 launch kuams_navigation kuams_3d_navigation.launch.py
     ```
 
-    Nav2の起動後、以下のコマンドで**waypoint_manager**を起動します
+    **waypoint_manager**の起動:  
+    Nav2の起動後、以下のコマンドでwaypoint_managerを起動します
     ```bash
     cd ~/kuams_ws
     source install/setup.bash
