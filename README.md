@@ -102,7 +102,7 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
     ```
 
 ## 使用方法
-- **kuamsの起動**:    
+- **KUAMSの起動**:    
     ⚠️ **注意**: 初期セットアップ時にudevルールを編集し、USBデバイスのシンボリックリンクを作成してください。
     ```bash
     sudo mv ~/kuams_ws/src/kuams/docs/99-whill-serial.rules /etc/udev/rules.d/
@@ -115,8 +115,8 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
     ros2 launch kuams_bringup kuams.launch.py
     ```
 
-- **Joyコントローラーを用いたkuams3の操縦**:
-    JoyコントローラーとPCを接続した後、以下のコマンドを実行しkuamsを操縦することができます。
+- **Joyコントローラーを用いたKUAMSの操縦**:
+    JoyコントローラーとPCを接続した後、以下のコマンドを実行しKUAMSを操縦することができます。
     ```bash
     cd kuams_ws
     source install/setup.bash
@@ -153,3 +153,23 @@ ROS 2とNavigation2を用いてナビゲーションを行うためのパッケ�
     echo 'export NAVIGATION_DATA_NAME=rinpukan' >> ~/.bashrc
     ```
 
+    ウェイポイントナビゲーションで使用するデータを指定する場合は、環境変数 `NAVIGATION_DATA_NAME` 以下のコマンドで変更します。  
+    ```bash
+    # Nav2・waypoint_managerの起動前に行ってください。
+    export NAVIGATION_DATA_NAME=rinpukan
+    ```
+    ※`.bashrc` を編集することでも使用するデータを指定することができます。その場合は編集後、ターミナルを開き直してください。
+
+    KUAMSを起動後、以下のコマンドで**Nav2**を起動します
+    ```bash
+    cd ~/kuams_ws
+    source install/setup.bash
+    ros2 launch kuams_navigation kuams_3d_navigation.launch.py
+    ```
+
+    Nav2の起動後、以下のコマンドで**waypoint_manager**を起動します
+    ```bash
+    cd ~/kuams_ws
+    source install/setup.bash
+    ros2 launch waypoint_manager waypoint_manager.launch.py
+    ```
