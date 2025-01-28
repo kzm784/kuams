@@ -9,16 +9,19 @@ from launch.substitutions import LaunchConfiguration
 
 
 def generate_launch_description():
+
+    navigation_data_dir = os.getenv('NAVIGATION_DATA_DIR')
+    navigation_data_name = os.getenv('NAVIGATION_DATA_NAME')
+    nav2_map_path = os.path.join(
+        navigation_data_dir,
+        navigation_data_name,
+        f"{navigation_data_name}.yaml"
+    )
+
     # Declare arguments #
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
-    map_yaml_file = LaunchConfiguration('map')
     params_file = LaunchConfiguration('params_file')
     rviz2_file = LaunchConfiguration('rviz2_file')
-
-    declare_arg_map = DeclareLaunchArgument(
-        'map',
-        description='The full path to the map yaml file.'
-    )
 
     declare_arg_params_file = DeclareLaunchArgument(
         'params_file',
@@ -52,7 +55,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource([
             nav2_launch_file_dir, '/bringup_launch.py']),
         launch_arguments={
-            'map': map_yaml_file,
+            'map': nav2_map_path,
             'params_file': params_file,
             'use_sim_time': use_sim_time,
         }.items(),
@@ -65,7 +68,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}]
     )
 
-    # nav2_collision_monitorのlaunchファイルをインクルード
+    # nav2_collision_monitor
     collision_monitor_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [nav2_collision_monitor_launch_file_dir, '/collision_monitor_node.launch.py']),
@@ -76,7 +79,6 @@ def generate_launch_description():
     )
 
     ld = LaunchDescription()
-    ld.add_action(declare_arg_map)
     ld.add_action(declare_arg_params_file)
     ld.add_action(declare_arg_rviz2_config_path)
 
