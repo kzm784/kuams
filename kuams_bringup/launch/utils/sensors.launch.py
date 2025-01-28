@@ -1,14 +1,10 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import IncludeLaunchDescription
-from launch.substitutions import LaunchConfiguration
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from ament_index_python.packages import get_package_share_directory
 import os
-from ament_index_python.packages import get_package_share_directory, get_package_share_path
 import yaml
 
 def generate_launch_description():
-
     bringup_dir = get_package_share_directory("kuams_bringup")
 
     # Velodyne Nodes
@@ -42,21 +38,7 @@ def generate_launch_description():
         parameters=[laserscan_params_file]
     )
 
-    # Include rviz_MID660_launch.py from livox_ros_driver2 with custom user_config_path
-    # livox_driver_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(get_package_share_directory('livox_ros_driver2'), 'launch_ROS2', 'rviz_MID360_launch.py')
-    #     ),
-    #     launch_arguments={
-    #         'user_config_path': os.path.join(
-    #             get_package_share_directory('kuams_bringup'),
-    #             'config',
-    #             'MID360_config.json'
-    #         )
-    #     }.items()
-    # )
-
-    # livox_ros_driver2 Node
+    # Livox Node
     livox_ros_driver2_node = Node(
         package='livox_ros_driver2',
         executable='livox_ros_driver2_node',
@@ -79,7 +61,18 @@ def generate_launch_description():
         ]
     )
 
-    # pointcloud_to_laser_scan node
+    # Realsense Node
+    realsense_config_file = os.path.join(bringup_dir, 'config', 'realsense_d435i.yaml')
+    realsense_camera_node = Node(
+        package='realsense2_camera',
+        executable='realsense2_camera_node',
+        name='realsense_camera_node',
+        namespace='camera',
+        output='screen',
+        parameters=[realsense_config_file]
+    )    
+
+    # Pointcloud to LaserScan Node
     pointcloud_to_laserscan_node = Node(
         package='pointcloud_to_laserscan',
         executable='pointcloud_to_laserscan_node',
@@ -102,19 +95,11 @@ def generate_launch_description():
         }]
     )
 
-    # Include pointcloud_to_laser_scan
-    # pointcloud_to_laserscan_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(get_package_share_directory('pointcloud_to_laserscan'), 'launch', 'sample_pointcloud_to_laserscan_launch.py')
-    #     )
-    # )
-
     return LaunchDescription([
         velodyne_driver_node,
         velodyne_transform_node,
         velodyne_laserscan_node,
-        # pointcloud_to_laserscan_launch,
-        # livox_driver_launch
         livox_ros_driver2_node,
+        realsense_camera_node,
         pointcloud_to_laserscan_node
     ])

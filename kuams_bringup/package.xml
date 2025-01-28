@@ -15,7 +15,10 @@
 
   <exec_depend>navigation2</exec_depend>
   <exec_depend>xacro</exec_depend>
-  <exec_depend>velodyne</exec_depend>  
+  <exec_depend>velodyne</exec_depend>
+  <exec_depend>librealsense2</exec_depend>
+  <exec_depend>realsense2_camera</exec_depend>
+  <exec_depend>pointcloud_to_laserscan</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
