@@ -22,6 +22,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     params_file = LaunchConfiguration('params_file')
     rviz2_file = LaunchConfiguration('rviz2_file')
+    rviz2_dark_theme_file = LaunchConfiguration('rviz2_dark_theme_file')
 
     declare_arg_params_file = DeclareLaunchArgument(
         'params_file',
@@ -38,6 +39,15 @@ def generate_launch_description():
             'rviz',
             '3d_nav2_view.rviz'),
         description='The full path to the rviz file'
+    )
+
+    declare_arg_rviz2_dark_theme_path =DeclareLaunchArgument(
+        'rviz2_dark_theme_file',
+        default_value=os.path.join(
+            get_package_share_directory('kuams3_navigation'),
+            'rviz',
+            'dark.qss'),
+        description='The full path to the rviz dark theme file'
     )
 
     nav2_launch_file_dir = os.path.join(
@@ -64,9 +74,11 @@ def generate_launch_description():
     rviz2_node = Node(
         name='rviz2',
         package='rviz2', executable='rviz2', output='screen',
-        arguments=['-d', rviz2_file],
+        arguments=['-d', rviz2_file,
+                   '--stylesheet', rviz2_dark_theme_file],
         parameters=[{'use_sim_time': use_sim_time}]
     )
+
 
     # nav2_collision_monitor
     collision_monitor_launch = IncludeLaunchDescription(
@@ -81,7 +93,7 @@ def generate_launch_description():
     ld = LaunchDescription()
     ld.add_action(declare_arg_params_file)
     ld.add_action(declare_arg_rviz2_config_path)
-
+    ld.add_action(declare_arg_rviz2_dark_theme_path)
     ld.add_action(nav2_node)
     ld.add_action(rviz2_node)
     ld.add_action(collision_monitor_launch)
