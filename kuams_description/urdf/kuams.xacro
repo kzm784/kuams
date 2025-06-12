@@ -1,73 +1,61 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="kuams" >
-    
-    <link name="base_link" />
-    <!-- <link name="base_footprint" />
 
-    <joint name="base_joint" type="fixed">
-        <parent link="base_footprint" />
-        <child link="base_link" />
-        <origin xyz="0 0 0.06625" rpy="0 0 0"/>
-    </joint> -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.2" radius="0.01"/>
+            </geometry>
+            <material name="blue">
+                <color rgba="0.0 0.0 1.0 1.0"/>
+            </material>
+        </visual>
+    </link>
 
     <link name="base_floor">
         <visual>
             <geometry>
-            	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
+                <box size="0.985 0.37 0.03"/>
             </geometry>
             <material name="grey">
                 <color rgba="0.5 0.5 0.5 1.0"/>
             </material>
         </visual>
-
         <collision>
             <geometry>
-            	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
+                <box size="0.985 0.37 0.03"/>
             </geometry>
         </collision>
-
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="40" />
+            <mass value="30" />
             <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
                                 iyy="1.0"   iyz="0.0"
                                             izz="1.0" />
         </inertial>
     </link>
 
-    <joint name="base_body_joint" type="fixed">
+    <joint name="base_floor_joint" type="fixed">
         <parent link="base_link" />
         <child link="base_floor" />
-        <origin xyz="0.3 0 0.0" rpy="0 0 0"/>
+        <origin xyz="0.3 0 0" rpy="0 0 0"/>
     </joint>
 
-
-    <link name="footrest_link">
-    </link>
-
-    <joint name="footrest_joint" type="fixed">
-        <parent link="base_floor" />
-        <child link="footrest_link" />
-        <origin xyz="0.320 0 0" rpy="0 0 0"/>
-    </joint>
-
-    <link name="left_wheel_link">
+    <link name="left_wheel">
         <visual>
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
             <origin xyz="0 0 0" rpy="0 0 0" />
-            <material name="dark_grey">
+            <material name="black">
                 <color rgba="0.1 0.1 0.1 1.0"/>
-            </material>  
+            </material>
         </visual>
-
         <collision>
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
         </collision> 
-
         <inertial>
             <origin xyz="0 0 0"/>
             <mass value="0.500"/>
@@ -75,15 +63,14 @@
         </inertial>
     </link>
 
-
-    <joint name="leftWheel" type="continuous">
+    <joint name="left_wheel_joint" type="continuous">
         <parent link="base_floor" />
-        <child link="left_wheel_link" />
-        <origin xyz="-0.3 0.245 0" rpy="-1.57 0 0" />
+        <child link="left_wheel" />
+        <origin xyz="-0.3 0.260 0.015" rpy="1.571 0 0" />
         <axis xyz="0 0 1" />
     </joint>
 
-    <link name="right_wheel_link">
+    <link name="right_wheel">
         <collision>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
@@ -95,9 +82,9 @@
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
-            <material name="dark_grey">
+            <material name="black">
                 <color rgba="0.1 0.1 0.1 1.0"/>
-            </material>  
+            </material>
         </visual>
         <inertial>
             <origin xyz="0 0 0"/>
@@ -106,30 +93,27 @@
         </inertial>
     </link>
 
-    <joint name="rightWheel" type="continuous">
+    <joint name="right_wheel_joint" type="continuous">
         <parent link="base_floor" />
-        <child link="right_wheel_link" />
-        <origin xyz="-0.3 -0.245 0" rpy="1.57 0 0" />
-        <axis xyz="0 0 1" />
+        <child link="right_wheel" />
+        <origin xyz="-0.3 -0.260 0.015" rpy="-1.571 0 0" />
+        <axis xyz="0 0 -1" />
     </joint>
 
-
-    <link name="frontwheel_left">
+    <link name="left_front_wheel">
         <collision>
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
         </collision>
-
         <visual>
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
-            <material name="dark_grey">
+            <material name="black">
                 <color rgba="0.1 0.1 0.1 1.0"/>
-            </material>  
+            </material>
         </visual>
-
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <mass value="1.0" />
@@ -138,32 +122,28 @@
                                             izz="1.0" />
         </inertial>
     </link>
-    
-    <joint name="frontwheel_left_joint" type="fixed">
+
+    <joint name="left_front_wheel_joint" type="fixed">
         <parent link="base_floor" />
-        <child link="frontwheel_left" />
-        <origin xyz="0.3 -0.245 0" rpy="1.57 0 0" />
-        <axis xyz="0 0 1" />
+        <child link="left_front_wheel" />
+        <origin xyz="0.330 -0.235 0" rpy="-1.571 0 0" />
+        <axis xyz="0 0 -1" />
     </joint>
 
-
-
-    <link name="frontwheel_right">
+    <link name="right_front_wheel">
         <collision>
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
         </collision>
-
         <visual>
             <geometry>
                 <cylinder length="0.05" radius="0.1325"/>
             </geometry>
-            <material name="dark_grey">
+            <material name="black">
                 <color rgba="0.1 0.1 0.1 1.0"/>
-            </material>  
+            </material>
         </visual>
-
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0" />
             <mass value="1.0" />
@@ -173,11 +153,157 @@
         </inertial>    
     </link>
 
-    <joint name="frontwheel_right_joint" type="fixed">
+    <joint name="right_front_wheel_joint" type="fixed">
         <parent link="base_floor" />
-        <child link="frontwheel_right"/>
-        <origin xyz="0.3 0.245 0" rpy="1.57 0 0" />
-        <axis xyz="0 0 -1" />
+        <child link="right_front_wheel"/>
+        <origin xyz="0.330 0.235 0" rpy="1.571 0 0" />
+        <axis xyz="0 0 1" />
+    </joint>
+
+    <link name="seat">
+        <visual>
+            <geometry>
+                <box size="0.42 0.42 0.40"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.42 0.42 0.40"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="12" />
+            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
+                                iyy="1.0"   iyz="0.0"
+                                            izz="1.0" />
+        </inertial>
+    </link>
+
+    <joint name="seat_joint" type="fixed">
+        <parent link="base_floor" />
+        <child link="seat" />
+        <origin xyz="-0.10 0 0.215" rpy="0 0 0"/>
+    </joint>
+
+    <link name="left_sensor_arm">
+        <collision>
+            <geometry>
+                <cylinder length="0.11" radius="0.013"/>
+            </geometry>
+        </collision>
+        <visual>
+            <geometry>
+                <cylinder length="0.11" radius="0.013"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="left_sensor_arm_joint" type="fixed">
+        <parent link="seat"/>
+        <child link="left_sensor_arm"/>
+        <origin xyz="0.20 0.235 0.07" rpy="0 0 0"/>
+    </joint>
+
+    <link name="right_sensor_arm">
+        <collision>
+            <geometry>
+                <cylinder length="0.11" radius="0.013"/>
+            </geometry>
+        </collision>
+        <visual>
+            <geometry>
+                <cylinder length="0.11" radius="0.013"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="right_sensor_arm_joint" type="fixed">
+        <parent link="seat"/>
+        <child link="right_sensor_arm"/>
+        <origin xyz="0.20 -0.235 0.07" rpy="0 0 0"/>
+    </joint>
+
+    <link name="backrest">
+        <visual>
+            <geometry>
+                <box size="0.10 0.42 0.72"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.10 0.42 0.72"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="7" />
+            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
+                                iyy="1.0"   iyz="0.0"
+                                            izz="1.0" />
+        </inertial>
+    </link>
+
+    <joint name="backrest_joint" type="fixed">
+        <parent link="base_floor" />
+        <child link="backrest" />
+        <origin xyz="-0.36 0 0.375" rpy="0 0 0"/>
+    </joint>
+
+    <link name="left_arm">
+        <visual>
+            <geometry>
+                <box size="0.09 0.07 0.535"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.09 0.07 0.535"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="left_arm_joint" type="fixed">
+        <parent link="seat" />
+        <child link="left_arm" />
+        <origin xyz="0 0.245 0.30" rpy="0 1.0 0"/>
+    </joint>
+
+    <link name="right_arm">
+        <visual>
+            <geometry>
+                <box size="0.09 0.07 0.535"/>
+            </geometry>
+            <material name="grey">
+                <color rgba="0.5 0.5 0.5 1.0"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.09 0.07 0.535"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="right_arm_joint" type="fixed">
+        <parent link="seat" />
+        <child link="right_arm" />
+        <origin xyz="0 -0.245 0.30" rpy="0 1.0 0"/>
     </joint>
 
     <!-- IMU -->
