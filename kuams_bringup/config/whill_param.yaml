@@ -1,12 +1,7 @@
-whill_modelc_publisher:
-        ros__parameters:
-                serialport: "/dev/whill"
-                wheel_radius: 0.135
-                send_interval: 10
-                odom_flame_id: map
-                base_flame_id: base_link
-                publish_odom_tf: false
-
-whill_modelc_controller:
-        ros__parameters:
-                serialport: "/dev/whill"
+whill:
+  ros__parameters:
+    port_name: "/dev/whill"
+    publish_interval_ms: 100
+    publish_odom_tf: false
+    odom_frame_id: "odom"
+    base_frame_id: "base_link"

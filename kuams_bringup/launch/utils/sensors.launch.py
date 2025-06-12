@@ -100,6 +100,6 @@ def generate_launch_description():
         velodyne_transform_node,
         velodyne_laserscan_node,
         livox_ros_driver2_node,
-        realsense_camera_node,
+        # realsense_camera_node,
         pointcloud_to_laserscan_node
     ])
