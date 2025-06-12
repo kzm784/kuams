@@ -19,15 +19,6 @@ def generate_launch_description():
         description='Full path to the ros2 whill param file to use'
     )
 
-    whill_controller_node = Node(
-        package='ros2_whill',
-        executable='whill_modelc_controller',
-        name='whill_modelc_controller',
-        output='screen',
-        parameters=[LaunchConfiguration('params')],
-        remappings=[('/whill/controller/cmd_vel', '/cmd_vel')]
-    )
-    
     doc =xacro.process_file(kuams_urdf_path)
     robot_desc=doc.toprettyxml(indent='  ')
     f=open(kuams_urdf_path,'w')
@@ -39,21 +30,13 @@ def generate_launch_description():
         executable='robot_state_publisher',
         output='both',
         parameters=[{'robot_description': robot_desc}],
-        remappings=[('joint_states', '/whill/states/jointState')]
-    )
-    
-    jointstate_node = Node(
-        package='joint_state_publisher',
-        executable='joint_state_publisher',
-        output='screen',
-        remappings=[('joint_states', '/whill/states/jointState')]
+        remappings=[('/joint_states', '/whill/joint_states')]
     )
 
-    whill_publisher_node = Node(
-        package='ros2_whill',
-        executable='whill_modelc_publisher',
-        name='whill_modelc_publisher',
-        output='screen',
+    whill_node = Node(
+        package='whill_driver',
+        executable='whill',
+        name='whill',
         parameters=[LaunchConfiguration('params')],
         remappings=[('/whill/odom', '/odom')]
     )
@@ -63,10 +46,8 @@ def generate_launch_description():
 
     # Add launch arguments to the launch description of node
     ld.add_action(declare_param_file_cmd)
-    ld.add_action(whill_controller_node)
-    ld.add_action(whill_publisher_node)
     ld.add_action(robot_model_node)
-    ld.add_action(jointstate_node)
+    ld.add_action(whill_node)
     ld.add_action(
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'utils', 'sensors.launch.py'))
