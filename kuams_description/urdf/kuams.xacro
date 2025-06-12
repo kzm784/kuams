@@ -15,15 +15,16 @@
     <link name="base_floor">
         <visual>
             <geometry>
-                <box size="0.985 0.37 0.03"/>
+            	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
             </geometry>
             <material name="grey">
                 <color rgba="0.5 0.5 0.5 1.0"/>
             </material>
         </visual>
+
         <collision>
             <geometry>
-                <box size="0.985 0.37 0.03"/>
+            	<mesh filename="file://$(find kuams_description)/meshes/KUAMS_ver.5.1.0.dae" />
             </geometry>
         </collision>
         <inertial>
@@ -158,153 +159,7 @@
         <child link="right_front_wheel"/>
         <origin xyz="0.330 0.235 0" rpy="1.571 0 0" />
         <axis xyz="0 0 1" />
-    </joint>
-
-    <link name="seat">
-        <visual>
-            <geometry>
-                <box size="0.42 0.42 0.40"/>
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="0.42 0.42 0.40"/>
-            </geometry>
-        </collision>
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="12" />
-            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
-                                iyy="1.0"   iyz="0.0"
-                                            izz="1.0" />
-        </inertial>
-    </link>
-
-    <joint name="seat_joint" type="fixed">
-        <parent link="base_floor" />
-        <child link="seat" />
-        <origin xyz="-0.10 0 0.215" rpy="0 0 0"/>
-    </joint>
-
-    <link name="left_sensor_arm">
-        <collision>
-            <geometry>
-                <cylinder length="0.11" radius="0.013"/>
-            </geometry>
-        </collision>
-        <visual>
-            <geometry>
-                <cylinder length="0.11" radius="0.013"/>
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
-        </visual>
-    </link>
-
-    <joint name="left_sensor_arm_joint" type="fixed">
-        <parent link="seat"/>
-        <child link="left_sensor_arm"/>
-        <origin xyz="0.20 0.235 0.07" rpy="0 0 0"/>
-    </joint>
-
-    <link name="right_sensor_arm">
-        <collision>
-            <geometry>
-                <cylinder length="0.11" radius="0.013"/>
-            </geometry>
-        </collision>
-        <visual>
-            <geometry>
-                <cylinder length="0.11" radius="0.013"/>
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
-        </visual>
-    </link>
-
-    <joint name="right_sensor_arm_joint" type="fixed">
-        <parent link="seat"/>
-        <child link="right_sensor_arm"/>
-        <origin xyz="0.20 -0.235 0.07" rpy="0 0 0"/>
-    </joint>
-
-    <link name="backrest">
-        <visual>
-            <geometry>
-                <box size="0.10 0.42 0.72"/>
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="0.10 0.42 0.72"/>
-            </geometry>
-        </collision>
-        <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0" />
-            <mass value="7" />
-            <inertia ixx="1.0"  ixy="0.0"   ixz="0.0"
-                                iyy="1.0"   iyz="0.0"
-                                            izz="1.0" />
-        </inertial>
-    </link>
-
-    <joint name="backrest_joint" type="fixed">
-        <parent link="base_floor" />
-        <child link="backrest" />
-        <origin xyz="-0.36 0 0.375" rpy="0 0 0"/>
-    </joint>
-
-    <link name="left_arm">
-        <visual>
-            <geometry>
-                <box size="0.09 0.07 0.535"/>
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="0.09 0.07 0.535"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <joint name="left_arm_joint" type="fixed">
-        <parent link="seat" />
-        <child link="left_arm" />
-        <origin xyz="0 0.245 0.30" rpy="0 1.0 0"/>
-    </joint>
-
-    <link name="right_arm">
-        <visual>
-            <geometry>
-                <box size="0.09 0.07 0.535"/>
-            </geometry>
-            <material name="grey">
-                <color rgba="0.5 0.5 0.5 1.0"/>
-            </material>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="0.09 0.07 0.535"/>
-            </geometry>
-        </collision>
-    </link>
-
-    <joint name="right_arm_joint" type="fixed">
-        <parent link="seat" />
-        <child link="right_arm" />
-        <origin xyz="0 -0.245 0.30" rpy="0 1.0 0"/>
-    </joint>
+    </joint>        
 
     <!-- IMU -->
     <link name="imu">
@@ -355,29 +210,5 @@
         <parent link="base_link"/>
         <child link="gx5_25"/>
     </joint>
-
-    <!-- ===============  Transmission =============== -->
-
-    <transmission name="right_wheel_trans">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="rightWheel">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="right_wheel_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>30</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="left_wheel_trans">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="leftWheel">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_wheel_motor">
-            <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-            <mechanicalReduction>30</mechanicalReduction>
-        </actuator>
-    </transmission>
-
+    
 </robot>
