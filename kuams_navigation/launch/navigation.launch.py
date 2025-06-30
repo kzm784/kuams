@@ -42,11 +42,11 @@ def generate_launch_description():
     remappings = [
         ("/tf", "tf"),
         ("/tf_static", "tf_static"),
-        ("/odom", "/odom"),
-        ("/scan", "/scan"),
-        ("/cmd_vel", "/cmd_vel"),
-        ("/goal_pose", "/goal_pose"),
-        ("/map", "/map"),
+        # ("/odom", "/odom"),
+        # ("/scan", "/scan"),
+        # ("/cmd_vel", "/cmd_vel"),
+        # ("/goal_pose", "/goal_pose"),
+        # ("/map", "/map"),
     ]
 
     # Create our own temporary YAML files that include substitutions
