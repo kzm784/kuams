@@ -33,7 +33,7 @@ def generate_launch_description():
         arguments=[
             '0', '0', '0',    # x, y, z
             '0', '0', '0',    # roll, pitch, yaw
-            'map', 'odom'     # parent_frame_id, child_frame_id
+            'odom', 'base_link'     # parent_frame_id, child_frame_id
         ],
         output='screen',
     )
@@ -100,7 +100,7 @@ def generate_launch_description():
     
 
     delayed_start = TimerAction(
-        period=3.0,
+        period=5.0,
         actions=[
             from_unconfigured_to_inactive,
             from_inactive_to_active,
