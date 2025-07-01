@@ -22,8 +22,10 @@ def generate_launch_description():
     params_file = LaunchConfiguration("params_file")
     use_respawn = LaunchConfiguration("use_respawn")
     log_level = LaunchConfiguration("log_level")
+    map_yaml_file = LaunchConfiguration("map")
 
     lifecycle_nodes = [
+        "map_server",
         "controller_server",
         "smoother_server",
         "planner_server",
@@ -42,11 +44,11 @@ def generate_launch_description():
     remappings = [
         ("/tf", "tf"),
         ("/tf_static", "tf_static"),
-        # ("/odom", "/odom"),
-        # ("/scan", "/scan"),
-        # ("/cmd_vel", "/cmd_vel"),
-        # ("/goal_pose", "/goal_pose"),
-        # ("/map", "/map"),
+        ("/odom", "/odom"),
+        ("/scan", "/scan"),
+        ("/cmd_vel", "/cmd_vel"),
+        ("/goal_pose", "/goal_pose"),
+        ("/map", "/map"),
     ]
 
     # Create our own temporary YAML files that include substitutions
@@ -95,8 +97,24 @@ def generate_launch_description():
         "log_level", default_value="info", description="log level"
     )
 
+    declare_map_yaml_file = DeclareLaunchArgument(
+        "map", description="Full path to map yaml file to load"
+    )
+
     load_nodes = GroupAction(
         actions=[
+            Node(
+                package="nav2_map_server",
+                executable="map_server",
+                name="map_server",
+                output="screen",
+                parameters=[configured_params, {"yaml_filename": map_yaml_file}],
+                remappings=remappings,
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                arguments=["--ros-args", "--log-level", log_level],
+            ),
+
             Node(
                 package="nav2_controller",
                 executable="controller_server",
@@ -202,6 +220,7 @@ def generate_launch_description():
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
+    ld.add_action(declare_map_yaml_file)
     # Add the actions to launch all of the navigation nodes
     ld.add_action(load_nodes)
 
