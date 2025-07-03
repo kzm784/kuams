@@ -172,4 +172,3 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
         source install/setup.bash
         ros2 launch waypoint_manager waypoint_manager.launch.py
         ```
-W
