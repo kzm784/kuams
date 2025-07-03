@@ -1,7 +1,7 @@
 whill:
   ros__parameters:
     port_name: "/dev/whill"
-    publish_interval_ms: 100
+    publish_interval_ms: 10
     publish_odom_tf: false
     odom_frame_id: "odom"
     base_frame_id: "base_link"
