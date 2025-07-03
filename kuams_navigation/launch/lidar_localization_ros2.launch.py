@@ -31,7 +31,7 @@ def generate_launch_description():
         executable='static_transform_publisher',
         name='map_to_odom_tf',
         arguments=[
-            '0', '0', '0',    # x, y, z
+            '0', '0', '0.1325',    # x, y, z
             '0', '0', '0',    # roll, pitch, yaw
             'odom', 'base_link'     # parent_frame_id, child_frame_id
         ],
