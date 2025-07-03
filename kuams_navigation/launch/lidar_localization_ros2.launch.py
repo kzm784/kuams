@@ -26,18 +26,6 @@ def generate_launch_description():
 
     ld = launch.LaunchDescription()
 
-    map_tf = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='map_to_odom_tf',
-        arguments=[
-            '0', '0', '0.1325',    # x, y, z
-            '0', '0', '0',    # roll, pitch, yaw
-            'odom', 'base_link'     # parent_frame_id, child_frame_id
-        ],
-        output='screen',
-    )
-
     localization_param_dir = launch.substitutions.LaunchConfiguration(
         'localization_param_dir',
         default=os.path.join(
@@ -109,7 +97,6 @@ def generate_launch_description():
         ]
     )
 
-    ld.add_action(map_tf)
     ld.add_action(rviz2_node)
     ld.add_action(delayed_start)
 
