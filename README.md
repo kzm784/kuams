@@ -1,4 +1,4 @@
-# kuams🐧
+# kuams 🐧
 
 KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
 
