@@ -130,26 +130,11 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
             │       ├── rinpukan.pgm        # 2次元地図
             │       ├── rinpukan.yaml       # 2次元地図情報設定ファイル
             │       ├── rinpukan_wp.csv     # ウェイポイントデータ
-            │       └── rinpukan_mc.csv     # 地図切り替え設定ファイル (オプション)
             │
             └── ... # 以降も同じ形式
         ```
-        必要なデータを準備したら、以下のコマンドで環境変数を設定してください。
-        ```bash
-        echo 'export NAVIGATION_DATA_DIR=/home/$USER/navigation_data' >> ~/.bashrc
-        echo 'export NAVIGATION_DATA_NAME=rinpukan' >> ~/.bashrc
-        ```
-
-    2. **ウェイポイントナビゲーションで使用するデータを指定**:  
-        以下のコマンドで環境変数 `NAVIGATION_DATA_NAME` 変更してください。
-        ```bash
-        # Nav2・waypoint_managerの起動前に各ターミナルで実行してください。
-        export NAVIGATION_DATA_NAME=rinpukan
-        ```
-        ※ `.bashrc` を編集することでも使用するデータを指定することができます。  
-        その場合は `.bashrc` を編集後、ターミナルを開き直してください。
-
-    3. **lidar_localization_ros2の起動**:  
+        
+    2. **lidar_localization_ros2の起動**:  
         KUAMSを起動後、以下のコマンドで lidar_localization_ros2 を起動します
         ```bash
         cd  ~/kuams_ws
@@ -157,18 +142,20 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
         ros2 launch kuams_navigation lidar_localization_ros2.launch.py    
         ```
 
-    4. **Nav2の起動**:  
+    3. **Nav2の起動**:  
         KUAMS, lidar_localization_ros2 を起動後、以下のコマンドで Nav2 を起動します
+       `map:=` 以降にナビゲーションで使用する2D地図の `.yaml` ファイルを指定してください
         ```bash
         cd ~/kuams_ws
         source install/setup.bash
-        ros2 launch kuams_navigation navigation.launch.py
+        ros2 launch kuams_navigation navigation.launch.py map:=path/to/your/map.yaml
         ```
 
     5. **waypoint_managerの起動**:  
         Nav2の起動後、以下のコマンドでwaypoint_managerを起動します
+       `waypionts:=` 以降にナビゲーションで使用するウェイポイントの `.csv` ファイルを指定してください
         ```bash
         cd ~/kuams_ws
         source install/setup.bash
-        ros2 launch waypoint_manager waypoint_manager.launch.py
+        ros2 launch waypoint_manager waypoint_manager.launch.py waypoints:=path/to/your/waypoints.csv
         ```
