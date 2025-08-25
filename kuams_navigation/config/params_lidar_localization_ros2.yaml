@@ -2,7 +2,7 @@
     ros__parameters:
       registration_method: "NDT_OMP"
       score_threshold: 2.0
-      ndt_resolution: 1.0
+      ndt_resolution: 2.0
       ndt_step_size: 0.1
       ndt_num_threads: 4
       ndt_max_iterations: 35
@@ -24,6 +24,7 @@
       use_odom: true
       use_imu: false
       enable_debug: false
+      enable_map_odom_tf: true
       global_frame_id: map
       odom_frame_id: odom
       base_frame_id: base_link

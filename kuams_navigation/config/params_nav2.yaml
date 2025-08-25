@@ -81,13 +81,13 @@ controller_server:
       vx_std: 0.2
       vy_std: 0.0
       wz_std: 0.4
-      vx_max: 0.5
+      vx_max: 0.7
       vx_min: 0.0
       vy_max: 0.0
       wz_max: 0.5
       iteration_count: 1
       prune_distance: 1.7
-      transform_tolerance: 0.1
+      transform_tolerance: 1.0
       temperature: 0.3
       gamma: 0.015
       motion_model: "DiffDrive"
@@ -163,8 +163,9 @@ local_costmap:
     ros__parameters:
       update_frequency: 5.0
       publish_frequency: 2.0
-      global_frame: map
+      global_frame: odom
       robot_base_frame: base_link
+      transform_tolerance: 1.0
       use_sim_time: False
       rolling_window: true
       width: 5
@@ -277,7 +278,7 @@ recoveries_server:
       plugin: "nav2_recoveries/BackUp"
     wait:
       plugin: "nav2_recoveries/Wait"
-    global_frame: map
+    global_frame: odom
     robot_base_frame: base_link
     transform_timeout: 0.1
     use_sim_time: False
@@ -298,4 +299,4 @@ waypoint_follower:
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
       enabled: True
-      waypoint_pause_duration: 200
+      waypoint_pause_duration: 0
