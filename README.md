@@ -57,7 +57,7 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
     git clone https://github.com/kzm784/ros2_whill.git
     cd ~/kuams_ws
     rosdep update && rosdep install --from-paths src --ignore-src -y
-    colcon build B
+    colcon build
     ```
 4. [**Livox SDK2**](https://github.com/Livox-SDK/Livox-SDK2.git) のセットアップ:
    ```basht
