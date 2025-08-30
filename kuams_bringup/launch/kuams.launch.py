@@ -38,7 +38,8 @@ def generate_launch_description():
         executable='whill',
         name='whill',
         parameters=[LaunchConfiguration('params')],
-        remappings=[('/whill/odom', '/odom')]
+        remappings=[('/whill/odom', '/odom'),
+                    ('/whill/controller/cmd_vel', '/cmd_vel')]
     )
     
     # Create the launch description and populate

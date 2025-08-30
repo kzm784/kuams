@@ -80,7 +80,7 @@ def generate_launch_description():
         remappings=[('cloud_in', 'livox/lidar'),
                     ('scan', '/livox_scan')],
         parameters=[{
-            'target_frame': 'livox_frame',
+            'target_frame': 'front_sensor_link',
             'transform_tolerance': 0.01,
             'min_height': -0.2,
             'max_height': 0.2,

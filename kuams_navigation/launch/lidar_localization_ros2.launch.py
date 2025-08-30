@@ -1,3 +1,4 @@
+
 import os
 
 import launch
@@ -9,61 +10,38 @@ import launch_ros.actions
 import launch_ros.events
 
 from launch import LaunchDescription
+from launch.actions import TimerAction
 from launch_ros.actions import LifecycleNode
-from ament_index_python.packages import get_package_share_directory
+from launch_ros.actions import Node
 
 import lifecycle_msgs.msg
 
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
-    navigation_data_dir = os.getenv('NAVIGATION_DATA_DIR')
-    navigation_data_name = os.getenv('NAVIGATION_DATA_NAME')
-    map_path = os.path.join(
-        navigation_data_dir,
-        navigation_data_name,
-        f"{navigation_data_name}.pcd"
-    )
+    kuams_navigation_dir = get_package_share_directory('kuams_navigation')
+    rviz_config_dir = os.path.join(kuams_navigation_dir, 'rviz')
+    rviz_config_file = os.path.join(rviz_config_dir, 'rviz_kuams_navigation.rviz')
 
     ld = launch.LaunchDescription()
+
+    localization_param_dir = launch.substitutions.LaunchConfiguration(
+        'localization_param_dir',
+        default=os.path.join(
+            get_package_share_directory('kuams_navigation'),
+            'config',
+            'params_lidar_localization_ros2.yaml'))
 
     lidar_localization = launch_ros.actions.LifecycleNode(
         name='lidar_localization',
         namespace='',
         package='lidar_localization_ros2',
         executable='lidar_localization_node',
-        parameters=[{
-            'registration_method': "NDT_OMP",
-            'score_threshold': 2.0,
-            'ndt_resolution': 1.0,
-            'ndt_step_size': 0.1,
-            'ndt_num_threads': 4,
-            'ndt_max_iterations': 35,
-            'transform_epsilon': 0.01,
-            'voxel_leaf_size': 0.2,
-            'scan_max_range': 100.0,
-            'scan_min_range': 1.0,
-            'scan_period': 0.1,
-            'use_pcd_map': True,
-            'map_path': map_path,
-            'set_initial_pose': True,
-            'initial_pose_x': 0.0,
-            'initial_pose_y': 0.0,
-            'initial_pose_z': 0.0,
-            'initial_pose_qx': 0.0,
-            'initial_pose_qy': 0.0,
-            'initial_pose_qz': 0.0,
-            'initial_pose_qw': 1.0,
-            'use_odom': False,
-            'use_imu': False,
-            'enable_debug': True,
-            'global_frame_id': "map",
-            'odom_frame_id': "odom",
-            'base_frame_id': "base_link"
-        }],
-        remappings=[('/cloud', '/velodyne_points')],
-        output='screen'
-    )
+        parameters=[localization_param_dir],
+        remappings=[('/cloud','/velodyne_points'),
+                    ('/odom', '/odom')],
+        output='screen')
 
     to_inactive = launch.actions.EmitEvent(
         event=launch_ros.events.lifecycle.ChangeState(
@@ -89,7 +67,7 @@ def generate_launch_description():
     from_inactive_to_active = launch.actions.RegisterEventHandler(
         launch_ros.event_handlers.OnStateTransition(
             target_lifecycle_node=lidar_localization,
-            start_state='configuring',
+            start_state = 'configuring',
             goal_state='inactive',
             entities=[
                 launch.actions.LogInfo(msg="-- Inactive --"),
@@ -101,9 +79,25 @@ def generate_launch_description():
         )
     )
 
-    ld.add_action(from_unconfigured_to_inactive)
-    ld.add_action(from_inactive_to_active)
-    ld.add_action(lidar_localization)
-    ld.add_action(to_inactive)
+    rviz2_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', rviz_config_file],
+        output='screen')
+    
+
+    delayed_start = TimerAction(
+        period=5.0,
+        actions=[
+            from_unconfigured_to_inactive,
+            from_inactive_to_active,
+            lidar_localization,
+            to_inactive,
+        ]
+    )
+
+    ld.add_action(rviz2_node)
+    ld.add_action(delayed_start)
 
     return ld
