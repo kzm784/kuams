@@ -144,7 +144,7 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
         ```
 
     3. **Nav2の起動**:  
-        KUAMS, lidar_localization_ros2 を起動後、以下のコマンドで Nav2 を起動します
+        KUAMS, lidar_localization_ros2 を起動後、以下のコマンドで Nav2 を起動します  
        `map:=` 以降にナビゲーションで使用する2D地図の `.yaml` ファイルを指定してください
         ```bash
         cd ~/kuams_ws
