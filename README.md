@@ -136,6 +136,7 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
         
     2. **lidar_localization_ros2の起動**:  
         KUAMSを起動後、以下のコマンドで lidar_localization_ros2 を起動します
+        `map_path:=` 以降にナビゲーションで使用する3D地図の `.pcd` ファイルを指定してください
         ```bash
         cd  ~/kuams_ws
         source install/setup.bash
