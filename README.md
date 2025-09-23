@@ -140,7 +140,7 @@ KUAMS (Kansai University Autonomous Measurement System) ROS 2パッケージ
         ```bash
         cd  ~/kuams_ws
         source install/setup.bash
-        ros2 launch kuams_navigation lidar_localization_ros2.launch.py    
+        ros2 launch kuams_navigation lidar_localization_ros2.launch.py map_path:=path/to/your/map.pcd
         ```
 
     3. **Nav2の起動**:  
