@@ -8,7 +8,7 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY launch rviz config maps
+install(DIRECTORY launch rviz config maps behavior_trees
   DESTINATION share/${PROJECT_NAME}
 )
 
