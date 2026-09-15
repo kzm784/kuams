@@ -53,7 +53,8 @@ def generate_launch_description():
             'map_path': map_pcd_path
         }],
         remappings=[('/cloud','/velodyne_points'),
-                    ('/odom', '/odom')],
+                    ('/odom', '/odom'),
+                    ('/map', 'map_cloud')],
         output='screen')
 
     to_inactive = launch.actions.EmitEvent(

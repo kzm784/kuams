@@ -7,6 +7,7 @@ from launch.actions import DeclareLaunchArgument
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from ament_index_python.packages import get_package_share_path
 
 def generate_launch_description():
     kuams_urdf_path = os.path.join(get_package_share_directory('kuams_description'), 'urdf', 'kuams.xacro')
@@ -79,5 +80,18 @@ def generate_launch_description():
     #         PythonLaunchDescriptionSource(os.path.join(kuams_bringup_dir, 'launch', 'ekf.launch.py'))
     #     ),
     # )
+
+
+    # rviz_config_file = os.path.join(get_package_share_path('kuams_bringup'), 'rviz', 'rviz_kuams_navigation.rviz')
+    # rviz_stylesheet = os.path.join(get_package_share_path('kuams_bringup'), 'rviz', 'style_config.qss')
+
+    # rviz2_node = Node(
+    #     package='rviz2',
+    #     executable='rviz2',
+    #     name='rviz2',
+    #     arguments=['-d', rviz_config_file,
+    #                '--stylesheet', str(rviz_stylesheet)],
+    #     output='screen')
+    # ld.add_action(rviz2_node)
 
     return ld
