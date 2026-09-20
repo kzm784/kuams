@@ -9,6 +9,7 @@ from launch.actions import (
 )
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import RewrittenYaml
 
 
@@ -33,6 +34,7 @@ def generate_launch_description():
         "bt_navigator",
         "waypoint_follower",
         "velocity_smoother",
+        "collision_monitor",
     ]
 
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
@@ -49,13 +51,16 @@ def generate_launch_description():
     # Create our own temporary YAML files that include substitutions
     param_substitutions = {"use_sim_time": use_sim_time}
 
-    configured_params = RewrittenYaml(
-        source_file=params_file,
-        root_key=namespace,
-        param_rewrites=param_substitutions,
-        convert_types=True,
+    configured_params = ParameterFile(
+        RewrittenYaml(
+            source_file=params_file,
+            root_key=namespace,
+            param_rewrites=param_substitutions,
+            convert_types=True,
+        ),
+        allow_substs=True,
     )
-
+    
     stdout_linebuf_envvar = SetEnvironmentVariable(
         "RCUTILS_LOGGING_BUFFERED_STREAM", "1"
     )
@@ -184,8 +189,18 @@ def generate_launch_description():
                 respawn_delay=2.0,
                 parameters=[configured_params],
                 arguments=["--ros-args", "--log-level", log_level],
+                remappings=remappings + [("cmd_vel", "cmd_vel_nav")],
+            ),
+            Node(
+                package="nav2_collision_monitor",
+                executable="collision_monitor",
+                name="collision_monitor",
+                output="screen",
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                parameters=[configured_params],
+                arguments=["--ros-args", "--log-level", log_level],
                 remappings=remappings
-                + [("cmd_vel", "cmd_vel_nav"), ("cmd_vel_smoothed", "cmd_vel")],
             ),
             Node(
                 package="nav2_lifecycle_manager",
